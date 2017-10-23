@@ -1,6 +1,7 @@
 from app import app
 from flask import redirect, request, render_template, url_for, session, flash, render_template
 from .forms import LoginForm, RegisterForm
+from .models import User
 
 database_users = {}
 # {
@@ -32,17 +33,27 @@ def register():
         return render_template('register.html', title='Register')
 
     if request.method == 'POST':
-        email = request.form.get('email')
-        username = request.form.get('username')
-        password = request.form.get('password')
-        confirmpassword = request.form.get('cpassword')
+        id = len(database_users)+1;
+        user = User(id,request.form.get('name'),request.form.get('username'),
+                    request.form.get('email'), request.form.get('password'))
+        # user.email = request.form.get('email')
+        # user.username = request.form.get('username')
+        # user.password = request.form.get('password')
+        confirm_password = request.form.get('cpassword')
         print('Form submitted her')
-        print(confirmpassword)
-    if password != confirmpassword:
+        print(confirm_password)
+    if user.password != confirm_password:
         return redirect('/register')
 
-    database_users[username] = dict(email=email, password=password)
+    print('User Object')
+    print(user)
+
+    database_users[user.username] = user.__dict__
     # session['username'] = username
+    print('User Added$$')
+    print(database_users)
+    print(database_users[user.username]['email'])
+    print('redirect to login!!')
     return redirect('/login')
 
 
@@ -53,31 +64,29 @@ def login():
         return render_template('index.html', form=form, title='Login')
 
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
+        user = User(request.form.get('username'),request.form.get('password'))
         print('Entered from form##')
-        print(username)
-        print(password)
+        print(user.username)
+        print(user.password)
 
         print('Db Users##')
         print(database_users)
 
         try:
-            print(database_users[username])
+            print(database_users[user.username])
         except KeyError:
             print('No Users found')
             # flash('Invalid username, please try again!!')
 
         try:
-            print(database_users[username]['password'])
+            print(database_users[user.username]['password'])
         except KeyError:
             print('No Users Password found')
             # flash('Invalid password, Please try again!!')
 
         try:
-            if database_users[username] and database_users[username]['password'] == password:
-                session['username'] = username
+            if database_users[user.username] and database_users[user.username]['password'] == user.password:
+                session['username'] = user.username
                 return redirect(url_for('recipecategorylist'))
             else:
                 # flash('Invalid username or password, please try again!!')
