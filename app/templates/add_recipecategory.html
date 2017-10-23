@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{%  block content %}
+<div class = "container">
+<h4> add Recipe Category</h4>
+<form method = "POST" action ='/save_category'>
+
+    <div class = "row">
+        <div class = "col-ss-6">
+            <div class = "form-group">
+                <input type = "text" name= "recipename" class= "form-control input-sm" placeholder = "Recipe Name">
+            </div>
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class= "col-sm-6">
+            <div class = "form-group">
+                <label for ="description">Recipe Description</label>
+                <textarea class = "form-control" rows = "5" name = "description" id = "comment"></textarea>
+            </div>
+        </div>
+    </div>
+
+  <div clas = "row">
+        <div class = "col-sm-6">
+            <div class = "form-group">
+                <button class="btn btn-primary  "  name="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}

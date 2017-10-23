@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h3>Categories</h3>
+
+        <div class="row">
+            <a href='/add_recipecategory' class="btn btn-primary btn-sm pull-right"><i
+                    class="glyphicon glyphicon-plus"></i>Add Recipe Category</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th> Recipe Name</th>
+                <th>Description</th>
+                <th>View</th>
+                <th>Edit</th>
+            </tr>
+            <thead>
+            <tbody>
+            {% for item in category_items %}
+                <tr>
+                    <th scope="row">{{ item.id }}</th>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>
+                        <a href='/editcategory?id={{ item.id }}' class="btn btn-primary btn-sm"><i
+                                class="glyphicon glyphicon-pencil"></i> Edit</a>
+                    </td>
+
+                    <td>
+                    <td>
+
+                        <a href='/delete_category?id={{ item.id }}' class="btn btn-danger btn-sm"><i
+                                class="glyphicon glyphicon-trash"></i> Delete</a>
+                    </td>
+
+                    </td>
+
+                    <td>
+                        <a href='/viewitems?id={{ item.id }}' class="btn btn-info btn-sm"><i
+                                class="glyphicon glyphicon-eye-open"></i> View Items</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
